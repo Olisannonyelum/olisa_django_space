@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+{% if not request.user.is_authenticated %}
+<!-- this chack if the user is login  -->
+ 
+    <div style="margin-top:30px">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}            
+            <!-- <div>
+                <p style="color: red;"> {{ error }}</p>
+                <input type="text" name="username" placeholder="username">
+            </div>
+            <div>
+                <input type="password" name="password" placeholder="password">
+            </div> -->
+            <button type="submit">Login</button> 
+        </form>
+    </div>
+
+{% else %}
+    <p> you are already login would you like to logout <a href="/logout/">logout</a></p>
+
+{% endif %}
+{% endblock content %}

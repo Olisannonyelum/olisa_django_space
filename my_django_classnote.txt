@@ -1,0 +1,117 @@
+on linux machine  by typing django-admin we be give subcomand for working with django
+        which rang from "  check
+                            compilemessages
+                            createcachetable
+                            dbshell
+                            diffsettings
+                            dumpdata
+                            flush
+                            inspectdb
+                            loaddata
+                            makemessages
+                            makemigrations
+                            migrate
+                            optimizemigration
+                            runserver
+                            sendtestemail
+                            shell
+                            showmigrations
+                            sqlflush
+                            sqlmigrate
+                            sqlsequencereset
+                            squashmigrations
+                            startapp
+                            startproject
+                            test
+                            testserver"
+
+ note to start a django project we use the startproject command.
+ as in 
+
+
+
+ 
+ .....>  python django startproject <"then the project name is place in here"> <"location to be p;ace in ">  <...........
+
+
+
+
+..................for futher ..............
+
+the django will have section for which it purpose is to render HTML page
+
+
+........the urls.py ..........
+this is where we placs the path to the HTML
+1.      this contain 
+                    urlpatterns = [
+                                    path('/',home),
+                                    path('admin/', admin.site.urls),                
+                                   ]
+        1. urlpatterns is a list that contain in it function path
+        2. path contain the function that accept web request 
+        ............> for example in '/' reprecent the path for eaxmple if we have path('olisa/', home) then the url will be http://127.0.0.1:8000/olisa/
+        ............> the home is the function that accept the request to http://127.0.0.1:8000/olisa/
+
+
+2. ..............>the startapp command <...............
+by typing ..... python mange.py startappthis commaand will craete a python files 
+......> in the "model" file created, this is where we store  content or where you interact with the database
+.......> after the startapp folder (which contain the model.py and other ) is crated we have to let django know of thid files  this is done as follows
+                .......in the setting.py crated we add the folder to the list name "INSTALL_APP[]
+                eaxmple 
+                        python manage.py startapp article
+
+                        INSTALL_APP[
+                                'someshit',
+                                'article',
+                        ]
+
+                now in other to commes this change we the following command 
+                1....manage makemigrations
+                2....manage migrate
+                
+
+        
+
+
+        
+.....working with template in django.....
+we first crate a folder thet will hold all django template,  the fun part of this template is that the extention o this template are ".html"
+and after crating this template will still need to let django know of the existance  of this template folder, this is done in the same similer way in the setting.py
+what we simple do is that add the diectory part of the template to the 'TEMPLATE list'
+..........note.......
+        in other to loade the html to the veiw we the class 'render_to_string'
+        this is imported as in ...form django template.loader import render_to_string.....
+
+......note ....
+also we have that we call template inheritance
+
+
+
+
+
+
+
+
+
+
+
+............................>the admin.py<..........................
+the admin.py this is where we can make modification to the django admin login in this python file we can add or register model as we have seen in video 21
+also we can add feature's to the admin page aswell
+
+.......note .......> in other to alter the admin log in page we must first inherite from the 
+"admin.Model.Admin"
+...now to register a model to the admin page we pass the article into the "admin.site.register()" function
+
+
+
+note makemigrations is telling django to get ready to perform a database change then 
+migrate is telling the database to perform the database change
+
+
+
+
+i just found out about some new shit like this ................when ever we our function we dont know how many argument is to recieve 
+                                                                the we passin a kwargs argument so as to collect all argument pass in it

@@ -1,0 +1,88 @@
+that dose this mean 
+.......>path('articles/<int:id>/',home)
+        when considering the url.py file in django
+                answere to this quation is give as .......>
+                                                        from chatgpt"
+                                                        In your Django path, `<int:id>` is part of the URL pattern. Let me break it down:
+
+                                                        ### Structure of `<int:id>`
+                                                        - **`<...>`**: The angled brackets indicate a *path converter*. Django uses this syntax to capture values from the URL.
+                                                        - **`int:`**: This is a *converter type*. It specifies that the value in this part of the URL must be an integer. If the URL contains anything other than an integer at this position, Django will not match this pattern, and it will return a 404 error.
+                                                        - **`id`**: This is the *parameter name*. The captured value will be passed to your view function as a keyword argument with this name.
+
+                                                        For example:
+                                                        ```python
+                                                        path('articles/<int:id>/', views.article_detail_view)
+                                                        ```
+
+                                                        ### How it Works
+                                                        1. When a URL like `articles/42/` is accessed, Django:
+                                                        - Matches the URL against the pattern `articles/<int:id>/`.
+                                                        - Captures the value `42` (since it is an integer).
+                                                        - Passes `id=42` as a keyword argument to the `article_detail_view` function.
+
+                                                        2. Your view can then use the `id` parameter to perform specific actions. For instance:
+                                                        ```python
+                                                        def article_detail_view(request, id):
+                                                        article = get_object_or_404(Article, pk=id)
+                                                        return render(request, 'article_detail.html', {'article': article})
+                                                        ```
+
+                                                        ### Why `<int:id>`?
+                                                        - **Type checking**: Ensures only integers are accepted in this part of the URL.
+                                                        - **Dynamic routing**: Allows for flexible and reusable patterns where you can substitute the ID dynamically without hardcoding specific numbers.
+                                                        - **Readability**: Clearly indicates that the value is an integer (`int`) and will be available as `id`.
+
+                                                        If you needed a different type, you could use other converters, such as:
+                                                        - `<str:name>` for strings
+                                                        - `<slug:slug>` for slugs
+                                                        - `<uuid:uuid>` for UUIDs
+                                                        - `<path:subpath>` for paths
+
+                                                        This pattern helps keep your URL routing robust and intuitive.
+                                                        "
+                                        in summary 
+                                        path('articles/<int:id>/', views.article_detail_view)
+                                        any value after the articles is capture and place in the place holder the is define as int type
+                                        example 
+                                        articles/4
+                                        the 4 is capture and place in the variable id and this is passe as an additional argunent to the function views.article_detail_view
+
+
+
+
+...........make a note on how to advance my a django admin platform...........
+
+
+def article_create(request, id=None):
+# note for user to be eble to add a article content the user most be login we anothe way to monitor is user is login is by using the @login_required
+    form = article_form(request.POST)
+
+    context={
+        'form': form
+    }
+    if request.method == 'POST':
+        # form = article_form(request.POST)
+        if form.is_valid():
+
+            title = form.cleaned_data.get('title')
+            content = form.cleaned_data.get('content')
+            # title1 = form.cleaned_data.get("content")
+            print(title, content)
+            
+            article_object = article.objects.create(title = title, content = content)
+
+            context['object']= article_object
+                
+    return render(request, "article/create.html", context=context)
+
+
+
+
+
+    class python(title):
+        nsmr=None
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
+
+

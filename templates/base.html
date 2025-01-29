@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="templates/style.css"> -->
+</head>
+<body>
+    <h1>this here is a form</h1>
+    <form method="GET" action="">
+        <div style="margin-bottom: 10px;">
+            <label for="nothing" id="" style="display: block;" >Name</label>
+            <input type="text" id="nothing" name="query">
+        </div>
+        <!-- <div>
+            <label for="" id="nothing2" style="display: block;">other_stuff</label>
+            <input type="text" id="nothing2" name="query">
+        </div> -->
+        <div><input type="submit"></div>
+    </form>
+    <hr>
+    {% block content %}
+    <!-- <p>then this one here</p> -->
+    {% endblock %}
+
+</body>
+</html>
