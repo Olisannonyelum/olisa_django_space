@@ -8,7 +8,7 @@ from article.admin import articleInline
     here i include the articleinline in the admin.py of the 
     article folder i try adding it as an inline to the user
     models but it refuse to work, it look like i can only inlude
-    it in one location at a time so i did everything in one location
+    it in one location at a time so i did everything  in one location
 
 """
 

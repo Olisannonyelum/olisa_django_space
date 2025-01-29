@@ -27,8 +27,11 @@ def login_view(request):
     if request.method == "POST":
 
         form = AuthenticationForm(request, data = request.POST)
-        if form.is_valid():
-            user = form.get_user()
+        if form.is_valid(): #this is authenticate to see if the user is in the system
+            user = form.get_user() # this will return the user detail if the authentication whent well
+            """
+                it work like the authentication function where it check username and password
+            """
             print("this here is the shit........", user)
             if user is not None:
                 login(request, user)

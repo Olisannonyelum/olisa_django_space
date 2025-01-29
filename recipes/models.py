@@ -14,6 +14,9 @@ class Recipe(models.Model):
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
 
+    def get_absolute_url(self):
+        return  "/pantry/recipes/"
+
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     name = models.CharField(max_length=220)
@@ -25,6 +28,16 @@ class RecipeIngredient(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)   
+
+    def get_absolute_url(self):
+        return self.recipe.get_absolute_url() #this will work just find as long as recipe is not empty
+
+    """ 
+        self.recipe is a foreing key to the class recipe in django that make self.recipe
+        an instance of the class recipe, that is why we a able to access the method in the 
+        recipe class
+    """
+
 
 
     def convert_to_system(self, system="mks"):
