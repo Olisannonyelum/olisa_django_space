@@ -4,18 +4,25 @@ from .validators import validate_unit_of_measure
 # Create your models here.
 from .utils import number_str_to_float
 import pint
+from django.urls import reverse
 
 class Recipe(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=220)
     description = models.TextField(blank=True, null=True)
-    directions = models.TextField(blank=True, null=True)
+    directions= models.TextField(blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
 
     def get_absolute_url(self):
-        return  "/pantry/recipes/"
+        # return  reverse('detail', kwargs={'id':self.id})
+        """
+            by introducing the app_name in the urls.py we have the 
+            reverse modefies as the below
+        """
+        
+        return  reverse('recipes:detail', kwargs={'id':self.id})
 
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)

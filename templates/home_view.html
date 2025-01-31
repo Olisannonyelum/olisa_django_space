@@ -8,7 +8,9 @@
     <!-- not in the example below "my_list" is a variable -->
     {% for x in my_list %}
         <li> <a href='{{ x.get_absolute_url }}'>{{ x.title }}</a></li> 
-        <!-- <li> <a href='{% url "article-create" %}'>{{ x.title }}</a></li>  -->
+        
+        <!-- <li> <a href='{% url "article:create" %}'>{{ x.title }}</a></li>  -->
+        
     {% endfor %}
 </ul>
 

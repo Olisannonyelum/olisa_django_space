@@ -24,7 +24,7 @@ class article_manager(models.Manager):
         return articlequeryset(self.model, using=self._db)
     
     def search(self, query=None):
-        return self.get_queryset().search(query=query)
+        return self.get_queryset()#.search(query=query)
 
 # Create your models here.
 class article(models.Model): #this model enable us to interect with a database or craete a database field that can store data
@@ -41,7 +41,7 @@ class article(models.Model): #this model enable us to interect with a database o
     def get_absolute_url(self):
         #return f'/articles/{self.slug}' 
         # print('this shit is not worcking at all boy')
-        return reverse("article-detail", kwargs={'slug': self.slug})
+        return reverse("article:detail", kwargs={'slug': self.slug})
         
 
     def save(self, *args, **kwargs):
