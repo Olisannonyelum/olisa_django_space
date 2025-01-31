@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+{% if massage %}
+<p>{{ massage }}</p>
+{% endif %}
+
+<div style="margin-top: 30px;">
+    <hr>
+    <p>here some shit</p>
+    <hr>
+    <form action='.' method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create</button>
+    </form>
+    
+</div>
+
+
+{% endblock content %}  

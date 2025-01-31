@@ -50,12 +50,12 @@ def recipe_create_view(request):
         obj.user = request.user #that i did here was to recreat the user, or say i overwrite the user 
         obj.save()
         return redirect(obj.get_absolute_url())
-    return render(request,"recipes/create-update.html", context)
+    return render(request,"recipes/create_update.html", context)
 
 
 @login_required  
 def recipe_update_view(request, id=None):
-    obj = get_object_or_404(Recipe, id=id, user=requst.user)
+    obj = get_object_or_404(Recipe, id=id, user=request.user)
     form = RecipeForm(request.POST or None, instance= obj)
 
     #obj = Recipe.objects.filter(user=request.user)
@@ -66,4 +66,4 @@ def recipe_update_view(request, id=None):
     if form.is_valid():
         form.save()
         context['massage'] = "data saved"
-    return render(request,"recipes/create-update .html", context)
+    return render(request, "recipes/create_update.html", context)
