@@ -29,7 +29,7 @@ class useradmin(admin.ModelAdmin):
 class RecipeIngredientInline(admin.StackedInline):#this help to put the recipeingredient to the same page of the of the recipe it is related to 
     #no need for admin.TabulaInline
     model = RecipeIngredient
-    readonly_fields = ['quantity_as_float', 'as_mks', 'as_imperial']
+    readonly_fields = ['quantity_as_float']#, 'as_mks', 'as_imperial']
     # fields = ['name', 'quantity', 'unit', 'directions']
     extra = 0
 

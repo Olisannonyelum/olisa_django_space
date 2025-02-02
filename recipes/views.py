@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render ,get_object_or_404
 from .models import  Recipe, RecipeIngredient 
 from django.contrib.auth.decorators import login_required
-from .form import RecipeForm, RecipeIngredientform
+from .form import RecipeForm, RecipeIngredientForm
 from django.forms.models import modelformset_factory
 """ 
     let see how make use of the get_object_or_404
@@ -85,31 +85,37 @@ def recipe_update_view(request, id=None):
     '''
         the new way of doing multiple form in a view 
     '''
-    RecipeIngredientFormset = modelformset_factory(RecipeIngredient, RecipeIngredientForm,
+    RecipeIngredientFormset = modelformset_factory(RecipeIngredient, form=RecipeIngredientForm,
     extra=0) #what we did here is to create the formset class not initiallizing
 
     qs = obj.recipeingredient_set.all()
 
-    formset = RecipeIngredientFormset(request.POST or None, queryset=qs, )
+    formset = RecipeIngredientFormset(request.POST or None, queryset=qs)
     # what we did here is to initialize the formet, note the number of form depend on the number of queryset avalable
 
     context= {
         "form":form,
-        "form2":form2,
         "object":obj,
-        "ingredient_form": ingredient_forms
+        # "ingredient_form": ingredient_forms,
         "formset":formset 
     }
     if all([form.is_valid(), formset.is_valid()]): 
     # if all([form.is_valid() for form in ingredient_forms]):
+    
         parent = form.save(commit=False)
         parent.save()
         for form in formset:
             child = form.save(commit=False)
             if child.recipe is None:
+                print('...................added new parent..................')
                 child.recipe=parent
             child.save()
         # child = form2.save(commit=False)#this is use for saving the data without it being save into the model
         
         context['massage'] = "data saved"
     return render(request, "recipes/create_update.html", context)
+    '''
+        not also we can use formset.save(), but we whent through iteration each
+        form in the formset and save them one after the other and to make sure 
+        that the recipe field is not None if None we re-assing them
+    '''
