@@ -1,7 +1,8 @@
 from django.shortcuts import redirect, render ,get_object_or_404
-from .models import  Recipe
+from .models import  Recipe, RecipeIngredient 
 from django.contrib.auth.decorators import login_required
-from .form import RecipeForm
+from .form import RecipeForm, RecipeIngredientform
+from django.forms.models import modelformset_factory
 """ 
     let see how make use of the get_object_or_404
     what this does is that it let us make a data query base on the login user
@@ -46,7 +47,7 @@ def recipe_create_view(request):
         "form":form
     }
     if form.is_valid():
-        obj = form.save(commit=False)
+        obj = form.save(commit=False)#
         obj.user = request.user #that i did here was to recreat the user, or say i overwrite the user 
         obj.save()
         return redirect(obj.get_absolute_url())
@@ -56,14 +57,59 @@ def recipe_create_view(request):
 @login_required  
 def recipe_update_view(request, id=None):
     obj = get_object_or_404(Recipe, id=id, user=request.user)
+    '''
+        for me why the object is pre-fill is that the intention is to update the form
+        and by so doing we create a form and that form to be updata is call upon (which is the obj as we see above)
+        and is use to pre-fill the form -----> that is why we didn't assign value to the user in the recipe_update_view function's
+        becase this model use to pre-fill have it user field assing already(this is an already created) we just updating it
+
+    '''
     form = RecipeForm(request.POST or None, instance= obj)
+    print(f'this here is the request post.......{request.POST}')
+    '''
+        the instance is use to pre-fille the form with the obj
+        note 
+        also there is other way to pre-fill a form using 
+        the argument 'initial' as is 
+            form = RecipeForm(request.POST or None, initial={'name':name, 'direction':direction})
+
+    '''
+    # ingredient_forms = []
+    # for ingredients in obj.recipeingredient_set.all():
+    #     ingredient_forms.append(
+    #         RecipeIngredientform(request.POST, or None, instance=ingredients)
+    #     )
+
 
     #obj = Recipe.objects.filter(user=request.user)
+    '''
+        the new way of doing multiple form in a view 
+    '''
+    RecipeIngredientFormset = modelformset_factory(RecipeIngredient, RecipeIngredientForm,
+    extra=0) #what we did here is to create the formset class not initiallizing
+
+    qs = obj.recipeingredient_set.all()
+
+    formset = RecipeIngredientFormset(request.POST or None, queryset=qs, )
+    # what we did here is to initialize the formet, note the number of form depend on the number of queryset avalable
+
     context= {
         "form":form,
-        "object":obj
+        "form2":form2,
+        "object":obj,
+        "ingredient_form": ingredient_forms
+        "formset":formset 
     }
-    if form.is_valid():
-        form.save()
+    if all([form.is_valid(), formset.is_valid()]): 
+    # if all([form.is_valid() for form in ingredient_forms]):
+        parent = form.save(commit=False)
+        parent.save()
+        for form in formset:
+            child = form.save(commit=False)
+            if child.recipe is None:
+                child.recipe=parent
+            child.save()
+        # child = form2.save(commit=False)#this is use for saving the data without it being save into the model
+        
         context['massage'] = "data saved"
     return render(request, "recipes/create_update.html", context)

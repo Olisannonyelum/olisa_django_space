@@ -14,8 +14,14 @@
     <form action='.' method="POST">
         {% csrf_token %}
         {{ form.as_p }}
+
+        {% if form2 %}
+            <h1>ingredients</h1>
+            {{ form2.as_p }}
+        {% endif %}
+
         <button type="submit">Create</button>
-    </form>
+    </form> 
     
 </div>
 
