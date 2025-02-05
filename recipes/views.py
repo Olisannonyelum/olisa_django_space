@@ -85,7 +85,7 @@ def recipe_update_view(request, id=None):
     '''
         the new way of doing multiple form in a view 
     '''
-    RecipeIngredientFormset = modelformset_factory(RecipeIngredient, form=RecipeIngredientForm,
+    RecipeIngredientFormset = modelformset_factory(RecipeIngredient, form=   RecipeIngredientForm,
     extra=0) #what we did here is to create the formset class not initiallizing
 
     qs = obj.recipeingredient_set.all()
