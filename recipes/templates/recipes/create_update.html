@@ -2,6 +2,12 @@
 
 
 {% block content %}
+<style>
+.hiden {
+    display: none;
+}
+
+</style>
 
 {% if massage %}
 <p>{{ massage }}</p>
@@ -14,18 +20,97 @@
     <form action='.' method="POST">
 
         {% csrf_token %}
-        {{ form.as_p }}
-        {{ formset.management_form }}
-        {% if formset %}
-            <h1>ingredients</h1>
-            {% csrf_token %}
-            {{ formset.as_p }}
-        {% endif %}
+        {% for field in form %}
+            <!-- by iterating through the form  we loss the field tag so that is why we introduce the
+            field tag  -->
+        <div class="{% if field.field.required %}required-class{%endif%}">
+            {{ field.label_tag }}{{ field }}
+            <!-- assignment find out all the attribute of a form field or property  -->
+            <!-- when we iterate through a form we only call out it field -->
 
+        </div>
+            <!-- {{ field.field.required }} -->
+            {% if field.help_text %}
+                <p class="help">{{ field.help_text|safe }}</p>
+                <!-- note the |safe is called a template filter    -->
+            {% endif %}
+
+
+        {% endfor %}
+        
+        {% if formset %}
+        <h1>ingredients</h1>
+        {{ formset.management_form }}   
+        <!-- the form data will be displaying here -->
+        <div id="block">
+            {% for form in formset %}
+                <div class="ingredient-form">
+                    {{ form.as_p }}
+                </div>
+            {% endfor %}
+        </div>
+        <!-- {% csrf_token %} -->
+        <!-- {{ formset.as_p }} -->
+        <button id="add-more" type="button">Add more</button>
+        {% endif %}
+        <div id="empty-form" class="hiden">{{ formset.empty_form.as_p}}</div>
         <button type="submit">Create</button>
     </form> 
     
 </div>
+
+<script>
+    const totalNewForms = document.getElementById('id_form-TOTAL_FORMS')
+    const formcopytarget = document.getElementById('block')
+    const addMoreBtn = document.getElementById('add-more')
+    addMoreBtn.addEventListener('click', add_new_form)
+    /*
+        here we collect all the element in the form and as "currentingredientforms"
+        also the hidden form as well which is clone into emptyforlEL since the all share the same class
+
+    */
+    
+    function add_new_form(event){
+        console.log(event)
+        if (event) {
+            event.preventDefault()   
+        }
+        
+        const currentIngredientForms = document.getElementsByClassName('ingredient-form')
+        const currentformcount = currentIngredientForms.length 
+        
+            // the above line of code is count all the elemet with the the class of ingredient-form
+            // -----> here the currentingredientform will return all all element with the class of 
+            // ingredient-form and by the we will get the number as in currentingredientforms.length
+            
+            // all this is done so as tbo madifie the formset.managment_form value so as to make the dynamic 
+            // form adding to be able to submit to the data base
+
+        
+        
+
+        // now add a new form  as soon as the button is click
+        const copyemptyFormEL = document.getElementById('empty-form').cloneNode(true)
+        copyemptyFormEL.setAttribute('class', 'ingredient-form')
+        copyemptyFormEL.setAttribute('id', 'form-${currentformcount}')
+
+        // what happen here is that we change we clone the elemet with the ID name of 'empty-form'
+        // after clone it we set up the attribute 
+
+        const regex = new RegExp('__prefix__', 'g')
+        copyemptyFormEL.innerHTML = copyemptyFormEL.innerHTML.replace(regex, currentformcount)
+        // next is to add this new form somewhere
+        formcopytarget.append(copyemptyFormEL) 
+        totalNewForms.setAttribute( 'value',currentformcount +1)                                                            
+        // console.log(formcopytarget)
+        /* 
+            not by appending like this with out modification 
+            will make every newly added form to be the duplicate 
+            of the previous for just try it and see for your self
+        */ 
+    }
+
+</script>
 
 
 {% endblock content %}  

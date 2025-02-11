@@ -65,7 +65,7 @@ def recipe_update_view(request, id=None):
 
     '''
     form = RecipeForm(request.POST or None, instance= obj)
-    print(f'this here is the request post.......{request.POST}')
+    # print(f'this here is the request post.......{request.POST}')
     '''
         the instance is use to pre-fille the form with the obj
         note 
@@ -106,9 +106,9 @@ def recipe_update_view(request, id=None):
         parent.save()
         for form in formset:
             child = form.save(commit=False)
-            if child.recipe is None:
-                print('...................added new parent..................')
-                child.recipe=parent
+            # if child.recipe is None:
+            #     print('...................added new parent..................')
+            child.recipe=parent
             child.save()
         # child = form2.save(commit=False)#this is use for saving the data without it being save into the model
         
@@ -118,4 +118,4 @@ def recipe_update_view(request, id=None):
         not also we can use formset.save(), but we whent through iteration each
         form in the formset and save them one after the other and to make sure 
         that the recipe field is not None if None we re-assing them
-    '''
+    ''' 
