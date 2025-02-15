@@ -113,6 +113,8 @@ def recipe_update_view(request, id=None):
         # child = form2.save(commit=False)#this is use for saving the data without it being save into the model
         
         context['massage'] = "data saved"
+    if request.htmx:
+        return render(request, "recipes/partials/forms.html", context)
     return render(request, "recipes/create_update.html", context)
     '''
         not also we can use formset.save(), but we whent through iteration each

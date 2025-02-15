@@ -2,3 +2,4 @@ django>=3.2,<3.3
 django-dotenv
 psycopg2-binary
 pint
+django-htmx

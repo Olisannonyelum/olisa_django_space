@@ -1,0 +1,42 @@
+<form action='.' method="POST" hx-post="." hx-swap="outerHTML">
+
+    {% csrf_token %}
+    {% if massage %}
+    <p>{{ massage }}</p>
+    {% endif %}
+    {% for field in form %}
+        <!-- by iterating through the form  we loss the field tag so that is why we introduce the
+        field tag  -->
+    <div class="{% if field.field.required %}required-class{%endif%}">
+        {{ field.label_tag }}{{ field }}
+        <!-- assignment find out all the attribute of a form field or property  -->
+        <!-- when we iterate through a form we only call out it field -->
+
+    </div>
+        <!-- {{ field.field.required }} -->
+        {% if field.help_text %}
+            <p class="help">{{ field.help_text|safe }}</p>
+            <!-- note the |safe is called a template filter    -->
+        {% endif %}
+
+
+    {% endfor %}
+    
+    {% if formset %}
+    <h1>ingredients</h1>
+    {{ formset.management_form }}   
+    <!-- the form data will be displaying here -->
+    <div id="block">
+        {% for form in formset %}
+            <div class="ingredient-form">
+                {{ form.as_p }}
+            </div>
+        {% endfor %}
+    </div>
+    <!-- {% csrf_token %} -->
+    <!-- {{ formset.as_p }} -->
+    <button id="add-more" type="button">Add more</button>
+    {% endif %}
+    <div id="empty-form" class="hiden">{{ formset.empty_form.as_p}}</div>
+    <button type="submit">Create</button>
+</form> 
