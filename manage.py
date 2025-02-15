@@ -9,7 +9,7 @@ def main():
     # DOT_ENV_PATH = pathlib.path() / '.env'
     # if DOT_ENV_PATH.exists():
     #     dotenv.read_dotenv(str(DOT_ENV_PATH))
-    dotenv.read_dotenv() #this line of code will alway's try to locate the .env file 
+    dotenv.load_dotenv() #this line of code will alway's try to locate the .env file 
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'trydjango.settings')
     try:
         from django.core.management import execute_from_command_line
