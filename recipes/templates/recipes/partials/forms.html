@@ -1,5 +1,9 @@
 <form action='.' method="POST" hx-post="." hx-swap="outerHTML">
 
+
+<!-- by using the hx-swap this will prevent the loop like re-rendering of the form which is cause by the hx-post 
+what this will do is that it will swap the form with the new request  -->
+
     {% csrf_token %}
     {% if massage %}
     <p>{{ massage }}</p>

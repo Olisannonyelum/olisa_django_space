@@ -2,20 +2,6 @@
 
 {% block content %}
 
-<h1>{{ object.name }}<small><a href="{% url 'recipes:update'  id=object.id %}">Edit</a></small></h1>
-<p>user: {{ object.user.username }}</p>
-<p> {{ object.description }}</p>
-<p> {{ object.directions}}</p>
-
-{% for ingredient in object.recipeingredient_set.all %}
-<!-- note the recipeingredient_set is a way of accessing the recipeingredient class from the 
-recipes this is possible because the recipeingredient is associated to the recipes, that is
- we use the synthax <associated_class_name>_set -->
-
-
-    <h1>{{ ingredient.name }}</h1>
-    <p>{{ ingredient.as_imperial }}</p>
-    <p> {{ ingredient.as_mks }}</p>
 {% endfor %}
 
 {% endblock %}

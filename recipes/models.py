@@ -24,6 +24,9 @@ class Recipe(models.Model):
         
         return  reverse('recipes:detail', kwargs={'id':self.id})
 
+    def get_hx_url(self):
+        return  reverse('recipes:hx-detail', kwargs={'id':self.id})
+
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     name = models.CharField(max_length=220)

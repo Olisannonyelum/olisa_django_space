@@ -3,6 +3,7 @@ from .models import  Recipe, RecipeIngredient
 from django.contrib.auth.decorators import login_required
 from .form import RecipeForm, RecipeIngredientForm
 from django.forms.models import modelformset_factory
+from django.http import HttpResponse
 """ 
     let see how make use of the get_object_or_404
     what this does is that it let us make a data query base on the login user
@@ -39,6 +40,28 @@ def recipe_detail_view(request, id=None):
         "object":obj
     }
     return render(request, 'recipes/detail.html', context)
+
+
+# .........................................................................
+
+
+
+    def recipe_detail_hx_view(request, id=None):
+        try:
+            obj = Recipe.object.get(id=id, user=request.user)
+        except:
+            obj = None
+        if obj is None:
+            return HttpResponse("Not found")
+
+        context= {
+            "object":obj
+        }
+        return render(request, 'recipes/partials/detail.html', context)
+
+
+
+# ..........................................................................
 
 @login_required
 def recipe_create_view(request):
