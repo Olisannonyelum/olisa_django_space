@@ -5,7 +5,7 @@ from .views import (
     recipe_detail_view,
     recipe_create_view,
     recipe_update_view,
-    recipe_detail_hx_views
+    recipe_detail_hx_view
 
 )
 
@@ -16,6 +16,6 @@ urlpatterns = [
     path("create/", recipe_create_view, name='create'),
     path("<int:id>/edit/", recipe_update_view, name='update'),
     path("<int:id>/", recipe_detail_view, name='detail'),
-    # path("hx/<int:id>/", recipe_detail_hx_view, name='hx-detail')
+    path("hx/<int:id>/", recipe_detail_hx_view, name='hx-detail')
     
 ]

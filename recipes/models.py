@@ -55,7 +55,7 @@ class RecipeIngredient(models.Model):
             return None
         ureg = pint.UnitRegistry(system=system)
         measurement = self.quantity_as_float * ureg[self.unit]
-        print(measurement)
+        print('is', measurement)
         return measurement #.to_base_units()
 
 

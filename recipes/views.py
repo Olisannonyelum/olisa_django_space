@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .form import RecipeForm, RecipeIngredientForm
 from django.forms.models import modelformset_factory
 from django.http import HttpResponse
+from django.urls import reverse
 """ 
     let see how make use of the get_object_or_404
     what this does is that it let us make a data query base on the login user
@@ -26,9 +27,9 @@ def recipe_list_view(request):
     }
     return render(request, 'recipes/list.html', context)
 
-@login_required
 def recipe_detail_view(request, id=None):
-    obj = get_object_or_404(Recipe, id=id, user=request.user)
+    hx_url = reverse('recipes:hx-detail', kwargs={'id':id})
+    # print(f'the url is active {obj.get_hx_url()}  and {obj.get_absolute_url()}')
 
     """
         what this does is that it let us to make a seach base on the field id but 
@@ -37,7 +38,7 @@ def recipe_detail_view(request, id=None):
 
     #obj = Recipe.objects.filter(user=request.user)
     context= {
-        "object":obj
+        "hx_url":hx_url
     }
     return render(request, 'recipes/detail.html', context)
 
@@ -46,18 +47,22 @@ def recipe_detail_view(request, id=None):
 
 
 
-    def recipe_detail_hx_view(request, id=None):
-        try:
-            obj = Recipe.object.get(id=id, user=request.user)
-        except:
-            obj = None
-        if obj is None:
-            return HttpResponse("Not found")
+def recipe_detail_hx_view(request, id=None):
+    print(f'this here is the id u ask for {id} and the user is {request.user}')
+    try:
+        obj = Recipe.objects.get(id=id, user=request.user)
 
-        context= {
-            "object":obj
-        }
-        return render(request, 'recipes/partials/detail.html', context)
+        # print(f'the url is active {obj.get_hx_url()}  and {obj.get_absolute_url()}')
+        
+    except:
+        obj = None
+    if obj is None:
+        return HttpResponse("Not found")
+
+    context= {
+        "object":obj
+    }
+    return render(request, 'recipes/partials/detail.html', context)
 
 
 
